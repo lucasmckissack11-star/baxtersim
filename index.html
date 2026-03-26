@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Baxter Sim: Chaos Edition</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle, #0a0a0a, #000);
+  font-family: 'Courier New', monospace;
+  color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container { text-align: center; width: 700px; }
+h1 { font-size: 48px; letter-spacing: 6px; animation: glitch 2s infinite; }
+.subtitle { color: #777; margin-bottom: 20px; }
+.characters button {
+  margin: 5px;
+  padding: 10px 12px;
+  background: transparent;
+  border: 1px solid #333;
+  color: #aaa;
+  cursor: pointer;
+}
+button:hover { border-color: #fff; color: #fff; }
+#name { margin-top: 20px; font-size: 22px; }
+#message { margin-top: 15px; font-size: 18px; color: #bbb; min-height: 60px; }
+#progress { margin-top: 20px; color: #666; white-space: pre-line; }
+@keyframes glitch {
+  0% { text-shadow: 2px 2px #ff00c8; }
+  50% { text-shadow: -2px -2px #00fff9; }
+  100% { text-shadow: 2px 2px #ff00c8; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>BAXTER SIM: CHAOS</h1>
+  <div class="subtitle">Talk to everyone 3 times before Baxter. Survive the chaos.</div>
+  <div class="characters">
+    <button onclick="talk('baxter')">Baxter</button>
+    <button onclick="talk('archie')">Archie</button>
+    <button onclick="talk('ben')">Ben</button>
+    <button onclick="talk('lachie')">Lachie</button>
+    <button onclick="talk('caiden')">Caiden</button>
+    <button onclick="talk('hayden')">Hayden</button>
+    <button onclick="talk('liahm')">Liahm</button>
+    <button onclick="talk('josh')">Josh</button>
+  </div>
+  <div id="name"></div>
+  <div id="message"></div>
+  <div id="progress"></div>
+</div>
+
+<script>
+let clicks = {archie:0,ben:0,lachie:0,caiden:0,hayden:0,liahm:0,josh:0,baxter:0};
+let alive = true;
+
+// dialogue
+const dialogue = {
+  archie: ["i cant spell properly 😭","he gets it tho","jus keep goin mate"],
+  ben: ["relax","you're overthinking","let it happen"],
+  lachie: ["you’re nearly there","don’t choke now","finish it"],
+  caiden: ["PROCESSING SOCIAL INPUT","WARNING: INSTABILITY","CONTINUE OBJECTIVE"],
+  hayden: ["got food?","im starving bro","lowkey dying rn"],
+  liahm: ["WHAT ARE YOU DOING","JUST TALK TO HIM PROPERLY","YOU'RE MESSING IT UP"],
+  josh: ["hey guys 😏","this is kinda sus","im him fr"],
+  baxter: ["...","He avoids eye contact","Still silent"]
+};
+
+// custom deaths
+const deaths = {
+  hayden: "Hayden ate all the snacks and accidentally spilled something on you. You perish from snack chaos.",
+  liahm: "Liahm lost his temper and threw a chair. You got hit. Dead.",
+  josh: "Josh said something extremely cringy, everyone groaned, you couldn’t handle it. You fainted and reset.",
+  archie: "Archie misread the situation and fell over you. Game over.",
+  ben: "Ben started telling a story that was too deep. You got trapped in existential dread. Reset.",
+  lachie: "Lachie is too tall, your neck got sore looking up. You collapsed. Dead.",
+  caiden: "Caiden overloaded your system with robotic logic. Brain fried. Reset."
+};
+
+// random mini-events
+const miniEvents = [
+  "A sudden loud noise distracts you from talking.",
+  "Someone drops something and you stumble.",
+  "You get lost in thought and miss your chance to talk.",
+  "A strange chill fills the room, pause for a moment..."
+];
+
+function resetGame(reason){
+  document.getElementById("name").innerText = "SYSTEM";
+  document.getElementById("message").innerText = reason + "\n\n[You were reset]";
+  document.getElementById("progress").innerText = "";
+  alive = false;
+  setTimeout(()=>{
+    for(let k in clicks) clicks[k]=0;
+    alive=true;
+    document.getElementById("name").innerText="";
+    document.getElementById("message").innerText="";
+    document.getElementById("progress").innerText="Start over!";
+  },3000);
+}
+
+function talk(character){
+  if(!alive) return;
+
+  clicks[character]++;
+  document.getElementById("name").innerText = character.toUpperCase();
+
+  // Baxter early
+  if(character==="baxter" && !allOthersThree()){
+    resetGame("You tried Baxter too soon!"); return;
+  }
+
+  // Baxter final
+  if(character==="baxter" && allOthersThree() && clicks[character]===1){
+    document.getElementById("message").innerText = "...";
+    setTimeout(()=>{document.getElementById("message").innerText="I hear you."},1500);
+    setTimeout(()=>{document.getElementById("message").innerText="Thank you."},3500);
+    document.getElementById("progress").innerText="Ending reached!"; return;
+  }
+
+  // chance of death
+  if(deaths[character] && Math.random()<0.15){
+    resetGame(deaths[character]); return;
+  }
+
+  // chance of mini-event
+  if(Math.random()<0.2){
+    const e = miniEvents[Math.floor(Math.random()*miniEvents.length)];
+    document.getElementById("message").innerText=e;
+    updateProgress(); return;
+  }
+
+  // normal dialogue
+  const lines = dialogue[character];
+  document.getElementById("message").innerText=lines[Math.floor(Math.random()*lines.length)];
+  updateProgress();
+}
+
+function allOthersThree(){
+  return clicks.archie>=3 && clicks.ben>=3 && clicks.lachie>=3 && clicks.caiden>=3 &&
+         clicks.hayden>=3 && clicks.liahm>=3 && clicks.josh>=3;
+}
+
+function updateProgress(){
+  let text="";
+  for(let k in clicks) text+=k+": "+Math.min(clicks[k],3)+"/3\n";
+  document.getElementById("progress").innerText=text.trim();
+}
+</script>
+</body>
+</html>
