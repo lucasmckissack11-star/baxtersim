@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
 <meta charset="UTF-8">
-<title>Baxter Sim: Chaos Edition</title>
+<title>Baxter Sim</title>
 <style>
 body {
   margin: 0;
@@ -38,8 +39,8 @@ button:hover { border-color: #fff; color: #fff; }
 </head>
 <body>
 <div class="container">
-  <h1>BAXTER SIM: CHAOS</h1>
-  <div class="subtitle">Talk to everyone 3 times before Baxter. Survive the chaos.</div>
+  <h1>BAXTER SIM</h1>
+  <div class="subtitle">Talk to everyone 3 times before Baxter. Survive.</div>
   <div class="characters">
     <button onclick="talk('baxter')">Baxter</button>
     <button onclick="talk('archie')">Archie</button>
@@ -61,23 +62,23 @@ let alive = true;
 
 // dialogue
 const dialogue = {
-  archie: ["i cant spell properly 😭","he gets it tho","jus keep goin mate"],
-  ben: ["relax","you're overthinking","let it happen"],
+  archie: ["just takl too him","stipud mute","I wanna pla volleyball"],
+  ben: ["yo","im gonna shoot you","tung tung sahur"],
   lachie: ["you’re nearly there","don’t choke now","finish it"],
   caiden: ["PROCESSING SOCIAL INPUT","WARNING: INSTABILITY","CONTINUE OBJECTIVE"],
-  hayden: ["got food?","im starving bro","lowkey dying rn"],
-  liahm: ["WHAT ARE YOU DOING","JUST TALK TO HIM PROPERLY","YOU'RE MESSING IT UP"],
+  hayden: ["got food?","im starving bro","im a fat chud"],
+  liahm: ["I'm gonna attack Baxter","i am tism","YOU'RE MESSING IT UP"],
   josh: ["hey guys 😏","this is kinda sus","im him fr"],
   baxter: ["...","He avoids eye contact","Still silent"]
 };
 
 // custom deaths
 const deaths = {
-  hayden: "Hayden ate all the snacks and accidentally spilled something on you. You perish from snack chaos.",
+  hayden: "Hayden ate all the snacks but wasn't full. He looked over at you and next second you were gone.",
   liahm: "Liahm lost his temper and threw a chair. You got hit. Dead.",
-  josh: "Josh said something extremely cringy, everyone groaned, you couldn’t handle it. You fainted and reset.",
-  archie: "Archie misread the situation and fell over you. Game over.",
-  ben: "Ben started telling a story that was too deep. You got trapped in existential dread. Reset.",
+  josh: "Josh and his alpha powers awoke, he accidently released to much aura and the world exploded.",
+  archie: "Archie spiked a volleyball and hit you. You died.",
+  ben: "Ben started to awaken true gang blood. He shot you 20 times.",
   lachie: "Lachie is too tall, your neck got sore looking up. You collapsed. Dead.",
   caiden: "Caiden overloaded your system with robotic logic. Brain fried. Reset."
 };
